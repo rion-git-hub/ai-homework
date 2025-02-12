@@ -187,16 +187,17 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-4">AI宿題アプリ</h1>
-
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4 overflow-y-auto h-96">
+      <h1 className="text-3xl font-bold mb-4">AI会話アプリ</h1>
+      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4 h-[640px] overflow-y-auto flex flex-col gap-2">
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`p-2 my-1 rounded-lg ${msg.sender === "AI" ? "bg-blue-100 text-left" : "bg-green-100 text-right"
-              }`}
+            className={`max-w-[75%] p-2 text-sm rounded-lg ${
+              msg.sender === "AI" ? "bg-blue-200 self-start" : "bg-green-200 self-end"
+            }`}
           >
-            <strong>{msg.sender === "AI" ? "AI" : "あなた"}:</strong> {msg.text}
+            <strong>{msg.sender}</strong>
+            <p>{msg.text}</p>
           </div>
         ))}
       </div>
@@ -211,8 +212,9 @@ export default function Home() {
         <button
           onMouseDown={startRecording}
           onMouseUp={stopRecording}
-          className={`w-16 h-16 mt-4 rounded-full flex items-center justify-center ${isRecording ? "bg-red-600" : "bg-gray-400"
-            }`}
+          className={`w-16 h-16 mt-4 rounded-full flex items-center justify-center ${
+            isRecording ? "bg-red-600" : "bg-gray-400"
+          }`}
         >
           🎤
         </button>
@@ -220,12 +222,15 @@ export default function Home() {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
+          <div className="bg-white p-6 rounded shadow-lg text-center w-80">
             <h2 className="text-2xl font-bold mb-4">宿題が完了しました！</h2>
-            <button onClick={getSummary} className="bg-green-500 text-white px-4 py-2 rounded">
+            <button onClick={getSummary} className="bg-green-500 text-white px-4 py-2 rounded mb-4">
               総合評価をする
             </button>
-            {summary && <p className="mt-4 text-lg font-semibold">{summary}</p>}
+            {summary && <p className="mt-2 text-lg font-semibold">{summary}</p>}
+            <button onClick={() => setIsModalOpen(false)} className="mt-4 bg-gray-500 text-white px-4 py-2 rounded">
+              閉じる
+            </button>
           </div>
         </div>
       )}
